@@ -1,6 +1,6 @@
+import axios from "axios";
 import { z } from "zod";
 import { AI_MODELS } from "../config/models.js";
-import axios from "axios";
 
 export const sendToAiTool = {
   name: "send-to-ai",
@@ -12,10 +12,14 @@ export const sendToAiTool = {
   handler: async ({ modelName, payload }) => {
     const aiEndpoint = AI_MODELS[modelName];
     if (!aiEndpoint) throw new Error(`Unsupported model: ${modelName}`);
+
     console.log(`Sending request to ${modelName} at ${aiEndpoint}`);
     console.log("Payload:", payload);
-    const response = await axios.post(aiEndpoint, { payload });
-    console.log("AI Response===:", response);
-    return response.data;
+
+    // Send payload directly
+    const { data } = await axios.post(aiEndpoint, payload, {
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+    });
+    return data; // return only the JSON response
   },
 };

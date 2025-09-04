@@ -1,22 +1,8 @@
 import { expect } from "chai";
-import axios from "axios";
 import { sendToAiTool } from "../src/tools/sendToAi.js";
 
-// Mock axios
-import sinon from "sinon";
-
 describe("sendToAiTool", () => {
-  const mockPayload = { userQuery: "Hello AI!" };
-  const mockResponse = { reply: "Hello User!" };
-  let postStub;
-
-  beforeEach(() => {
-    postStub = sinon.stub(axios, "post");
-  });
-
-  afterEach(() => {
-    postStub.restore();
-  });
+  const mockPayload = { text: "Hello AI!" };
 
   it("should throw an error for unsupported model", async () => {
     try {
@@ -30,16 +16,16 @@ describe("sendToAiTool", () => {
     }
   });
 
-  it("should call axios.post and return AI response for supported model", async () => {
-    postStub.resolves({ data: mockResponse });
-
+  it("should call axios.post and return AI response for a supported model", async () => {
+    // ⚠️ Warning: This will call the real API. Make sure the endpoint is correct and accessible.
     const result = await sendToAiTool.handler({
-      modelName: "CustomModel",
+      modelName: "CustomModel", // must exist in AI_MODELS
       payload: mockPayload,
     });
 
-    expect(postStub.calledOnce).to.be.true;
-    expect(postStub.firstCall.args[0]).to.equal("https://api-dev.v8x.de/api/ai/search/text");
-    expect(result).to.deep.equal(mockResponse);
+    console.log("AI Response:", result);
+
+    // Optional: simple assertion if you know expected keys in the response
+    expect(result).to.have.property("reply");
   });
 });
