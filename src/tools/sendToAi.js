@@ -1,0 +1,19 @@
+import { z } from "zod";
+import { AI_MODELS } from "../config/models.js";
+import axios from "axios";
+
+export const sendToAiTool = {
+  name: "send-to-ai",
+  description: "Send request to selected AI model",
+  inputSchema: z.object({
+    modelName: z.string(),
+    payload: z.any(),
+  }),
+  handler: async ({ modelName, payload }) => {
+    const aiEndpoint = AI_MODELS[modelName];
+    if (!aiEndpoint) throw new Error(`Unsupported model: ${modelName}`);
+
+    const response = await axios.post(aiEndpoint, { payload });
+    return response.data;
+  },
+};
