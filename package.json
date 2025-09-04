@@ -7,21 +7,24 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
-    "test": "jest --passWithNoTests"
+    "test": "mocha --timeout 5000 \"tests/*.test.js\""
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "axios": "^1.7.0",
-    "zod": "^3.22.0",
-    "dotenv": "^16.4.0"
+    "dotenv": "^16.4.0",
+    "zod": "^3.22.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.3",
-    "jest": "^29.7.0",
-    "babel-jest": "^29.7.0",
     "@babel/core": "^7.23.0",
-    "@babel/preset-env": "^7.23.0"
-  },  
+    "@babel/preset-env": "^7.23.0",
+    "babel-jest": "^29.7.0",
+    "chai": "^6.0.1",
+    "jest": "^29.7.0",
+    "mocha": "^11.7.2",
+    "nodemon": "^3.0.3",
+    "sinon": "^21.0.0"
+  },
   "resolutions": {
     "glob": "^10.3.10"
   },

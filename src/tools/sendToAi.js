@@ -12,7 +12,8 @@ export const sendToAiTool = {
   handler: async ({ modelName, payload }) => {
     const aiEndpoint = AI_MODELS[modelName];
     if (!aiEndpoint) throw new Error(`Unsupported model: ${modelName}`);
-
+    console.log(`Sending request to ${modelName} at ${aiEndpoint}`);
+    console.log("Payload:", payload);
     const response = await axios.post(aiEndpoint, { payload });
     return response.data;
   },
