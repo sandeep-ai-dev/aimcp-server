@@ -34,12 +34,12 @@ describe("sendToAiTool", () => {
     postStub.resolves({ data: mockResponse });
 
     const result = await sendToAiTool.handler({
-      modelName: "GPT5",
+      modelName: "CustomModel",
       payload: mockPayload,
     });
 
     expect(postStub.calledOnce).to.be.true;
-    expect(postStub.firstCall.args[0]).to.equal("http://localhost:6000/gpt5");
+    expect(postStub.firstCall.args[0]).to.equal("https://api-dev.v8x.de/api/ai/search/text");
     expect(result).to.deep.equal(mockResponse);
   });
 });

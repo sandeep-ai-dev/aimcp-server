@@ -15,6 +15,7 @@ export const sendToAiTool = {
     console.log(`Sending request to ${modelName} at ${aiEndpoint}`);
     console.log("Payload:", payload);
     const response = await axios.post(aiEndpoint, { payload });
+    console.log("AI Response===:", response);
     return response.data;
   },
 };
