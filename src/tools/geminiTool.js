@@ -22,7 +22,7 @@ export const geminiTool = {
     
 
     const geminiEndpoint = process.env.GEMINI_URL || null
-console.log("geminiEndpoint =======",geminiEndpoint )
+   console.log("geminiEndpoint =======",geminiEndpoint )
     // ✅ Explicit check to prevent axios crash
     if (!geminiEndpoint) {
       throw new Error("Gemini endpoint not configured")
