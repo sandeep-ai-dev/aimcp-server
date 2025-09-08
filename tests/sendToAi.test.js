@@ -34,7 +34,7 @@ describe("searchAiTool", () => {
     postStub.resolves({ data: mockResponse });
 
     const result = await searchAiTool.handler({
-      modelName: "CustomModel",
+      modelName: "SearchModel",
       payload: mockPayload,
     });
 
