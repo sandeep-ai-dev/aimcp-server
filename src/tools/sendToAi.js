@@ -20,20 +20,4 @@ export const searchAiTool = {
   },
 };
 
-export const chatGenerateToAiTool = {
-  name: "chat-generate-to-ai",
-  description: "chat generate request to selected AI model",
-  inputSchema: z.object({
-    modelName: z.string(),
-    payload: z.any(),
-  }),
-  handler: async ({ modelName, payload }) => {
-    const aiEndpoint = AI_MODELS[modelName];
-    if (!aiEndpoint) throw new Error(`Unsupported model: ${modelName}`);
-    console.log(`Sending request to ${modelName} at ${aiEndpoint}`);
-    console.log("Payload:", payload);
-    const response = await axios.post(aiEndpoint, { payload });
-    console.log("AI Response===:", response);
-    return response.data;
-  },
-};
+ 
