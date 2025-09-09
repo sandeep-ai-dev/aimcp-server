@@ -23,5 +23,10 @@ export const AI_MODELS = {
 
   // Gemini
   Gemini: process.env.GEMINI_URL || "http://localhost:6002",
-  
+ 
+
+  Claude: process.env.CLAUDE_URL || "http://localhost:6003",
+
+  Llama: process.env.LLAMA_URL || "http://localhost:6004"
+
 }

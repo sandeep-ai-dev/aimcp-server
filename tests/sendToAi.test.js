@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import axios from "axios";
-import { searchTextTool,searchEmbeddingTool } from "../src/tools/searchTools.js";
+import { searchTextTool,searchEmbeddingTool,generateEmbeddingTool } from "../src/tools/searchTools.js";
 
 // Mock axios
 import sinon from "sinon";
@@ -47,7 +47,7 @@ describe("searchTextTool", () => {
 });
  
 describe("searchEmbeddingTool", () => {
-  const mockPayload = { userQuery: "Hello AI!" };
+  const mockPayload = { query_embedding: [460402231852666240] };
   const mockResponse = { reply: "Hello User!" };
   let postStub;
 
@@ -61,7 +61,7 @@ describe("searchEmbeddingTool", () => {
 
   it("should throw an error for unsupported model", async () => {
     try {
-      await searchTextTool.handler({
+      await searchEmbeddingTool.handler({
         modelName: "UnknownModel",
         payload: mockPayload,
       });
@@ -74,13 +74,13 @@ describe("searchEmbeddingTool", () => {
   it("should call axios.post and return AI response for supported model", async () => {
     postStub.resolves({ data: mockResponse });
 
-    const result = await searchTextTool.handler({
-      modelName: "SearchModel",
+    const result = await searchEmbeddingTool.handler({
+      modelName: "SearchEmbeddingModel",
       payload: mockPayload,
     });
 
     expect(postStub.calledOnce).to.be.true;
-    expect(postStub.firstCall.args[0]).to.equal(`${baseUrl}/ai/search/text`);
+    expect(postStub.firstCall.args[0]).to.equal(`${baseUrl}/ai/search/embedding`);
     expect(result).to.deep.equal(mockResponse);
   });
 });

@@ -29,11 +29,13 @@ export const searchEmbeddingTool = {
     query: z.string(),
     key: z.string().optional(),
   }),
-  handler: async ({ query, key }) => {
-    const response = await axios.post(AI_MODELS.SearchEmbeddingModel, {
-      query,
-      key,
-    });
+ handler: async ({ modelName, payload }) => {
+    const aiEndpoint = AI_MODELS[modelName];
+    if (!aiEndpoint) throw new Error(`Unsupported model: ${modelName}`);
+    console.log(`Sending request to ${modelName} at ${aiEndpoint}`);
+    console.log("Payload:", payload);
+    const response = await axios.post(aiEndpoint, { payload });
+    console.log("AI Response===:", response);
     return response.data;
   },
 };
