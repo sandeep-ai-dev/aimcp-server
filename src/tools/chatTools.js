@@ -40,12 +40,15 @@ export const chatGetHistoryTool = {
   name: "chat-get-history",
   description: "Retrieve chat history",
   inputSchema: z.object({ session_id: z.string() }),
-  handler: async ({ session_id }) => {
-    const response = await axios.post(AI_MODELS.chatGetHistoryModel, {
-      session_id,
-    });
-    return response.data;
-  },
+  handler: async ({ modelName, payload }) => {
+        const aiEndpoint = AI_MODELS[modelName];
+        if (!aiEndpoint) throw new Error(`Unsupported model: ${modelName}`);
+        console.log(`Sending request to ${modelName} at ${aiEndpoint}`);
+        console.log("Payload:", payload);
+        const response = await axios.post(aiEndpoint, { payload });
+        console.log("cHET AI Response===:", response);
+        return response.data;
+    },
 };
 
 export const chatListSessionsTool = {

@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import axios from "axios";
-import { chatGenerateTool,chatListSessionsTool,chatGetSessionTool  } from "../src/tools/chatTools.js";
+import { chatGenerateTool,chatListSessionsTool,chatGetSessionTool,chatGetHistoryTool,chatDeleteSessionTool  } from "../src/tools/chatTools.js";
 
 // Mock axios
 import sinon from "sinon";
@@ -122,3 +122,43 @@ describe("chatGetSessionTool", () => {
      expect(result).to.deep.equal(mockResponse);
   });
 });
+
+describe("chatGetHistoryTool", () => {
+  const mockPayload = { "session_id": "6632a112-342a-45d6-ac38-972d87099196" };
+  const mockResponse = { reply: "The sum of 4 and 18 is **22**.\n\n(4 + 18 = 22)" };
+  let postStub;
+
+  beforeEach(() => {
+    postStub = sinon.stub(axios, "post");
+  });
+
+  afterEach(() => {
+    postStub.restore();
+  });
+
+  it("should throw an error for unsupported model", async () => {
+    try {
+      await chatGetHistoryTool.handler({
+        modelName: "UnknownModel",
+        payload: mockPayload,
+      });
+      throw new Error("Expected error was not thrown");
+    } catch (err) {
+      expect(err.message).to.equal("Unsupported model: UnknownModel");
+    }
+  });
+
+  it("should call axios.post and return AI response for supported model", async () => {
+    postStub.resolves({ data: mockResponse });
+
+    const result = await chatGetHistoryTool.handler({
+      modelName: "chatGetHistoryModel",
+      payload: mockPayload,
+    });
+
+    expect(postStub.calledOnce).to.be.true;
+    expect(postStub.firstCall.args[0]).to.equal("https://api-dev.v8x.de/api/ai/chat/get-history");
+     expect(result).to.deep.equal(mockResponse);
+  });
+});
+
