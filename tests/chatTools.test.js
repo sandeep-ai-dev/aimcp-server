@@ -162,3 +162,41 @@ describe("chatGetHistoryTool", () => {
   });
 });
 
+describe("chatDeleteSessionTool", () => {
+  const mockPayload = { "session_id": "6632a112-342a-45d6-ac38-972d87099196" };
+  const mockResponse = { reply: "Chat session deleted successfully" };
+  let postStub;
+
+  beforeEach(() => {
+    postStub = sinon.stub(axios, "delete");
+  });
+
+  afterEach(() => {
+    postStub.restore();
+  });
+
+  it("should throw an error for unsupported model", async () => {
+    try {
+      await chatDeleteSessionTool.handler({
+        modelName: "UnknownModel",
+        payload: mockPayload,
+      });
+      throw new Error("Expected error was not thrown");
+    } catch (err) {
+      expect(err.message).to.equal("Unsupported model: UnknownModel");
+    }
+  });
+
+  it("should call axios.delete and return AI response for supported model", async () => {
+    postStub.resolves({ data: mockResponse });
+
+    const result = await chatDeleteSessionTool.handler({
+      modelName: "chatDeleteSessionModel",
+      payload: mockPayload,
+    });
+
+    expect(postStub.calledOnce).to.be.true;
+    expect(postStub.firstCall.args[0]).to.equal(`${baseUrl}/ai/chat/delete-session`);
+     expect(result).to.deep.equal(mockResponse);
+  });
+});

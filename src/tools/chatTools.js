@@ -68,10 +68,14 @@ export const chatDeleteSessionTool = {
   name: "chat-delete-session",
   description: "Delete a chat session",
   inputSchema: z.object({ session_id: z.string() }),
-  handler: async ({ session_id }) => {
-    const response = await axios.post(AI_MODELS.chatDeleteSessionModel, {
-      session_id,
-    });
-    return response.data;
-  },
+  handler: async ({ modelName, payload }) => {
+        const aiEndpoint = AI_MODELS[modelName];
+        if (!aiEndpoint) throw new Error(`Unsupported model: ${modelName}`);
+        console.log(`Sending request to ${modelName} at ${aiEndpoint}`);
+        console.log("Payload:", payload);
+        const response = await axios.delete(aiEndpoint, { payload });
+        console.log("cHET AI Response===:", response);
+        return response.data;
+    },
 };
+

@@ -11,13 +11,13 @@ export const searchTextTool = {
     is_folder: z.boolean().default(false),
     session_id: z.string().optional(),
   }),
-  handler: async ({ query, key, is_folder, session_id }) => {
-    const response = await axios.post(AI_MODELS.SearchModel, {
-      query,
-      key,
-      is_folder,
-      session_id,
-    });
+ handler: async ({ modelName, payload }) => {
+    const aiEndpoint = AI_MODELS[modelName];
+    if (!aiEndpoint) throw new Error(`Unsupported model: ${modelName}`);
+    console.log(`Sending request to ${modelName} at ${aiEndpoint}`);
+    console.log("Payload:", payload);
+    const response = await axios.post(aiEndpoint, { payload });
+    console.log("AI Response===:", response);
     return response.data;
   },
 };
