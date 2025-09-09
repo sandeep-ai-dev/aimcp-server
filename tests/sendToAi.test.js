@@ -4,7 +4,7 @@ import { searchAiTool } from "../src/tools/sendToAi.js";
 
 // Mock axios
 import sinon from "sinon";
-
+const baseUrl = process.env.CUSTOM_URL || "https://api-dev.v8x.de/api"
 describe("searchAiTool", () => {
   const mockPayload = { userQuery: "Hello AI!" };
   const mockResponse = { reply: "Hello User!" };
@@ -39,7 +39,7 @@ describe("searchAiTool", () => {
     });
 
     expect(postStub.calledOnce).to.be.true;
-    expect(postStub.firstCall.args[0]).to.equal("https://api-dev.v8x.de/api/ai/search/text");
+    expect(postStub.firstCall.args[0]).to.equal(`${baseUrl}/ai/search/text`);
     expect(result).to.deep.equal(mockResponse);
   });
 });

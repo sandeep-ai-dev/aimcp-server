@@ -4,7 +4,7 @@ import { chatGenerateTool,chatListSessionsTool,chatGetSessionTool,chatGetHistory
 
 // Mock axios
 import sinon from "sinon";
- 
+ const baseUrl = process.env.CUSTOM_URL || "https://api-dev.v8x.de/api"
 
 describe("chatGenerateTool", () => {
   const mockPayload = { "query": "add 4 and 18", "key": "",  "is_folder": false, "session_id": ""  };
@@ -40,7 +40,7 @@ describe("chatGenerateTool", () => {
     });
 
     expect(postStub.calledOnce).to.be.true;
-    expect(postStub.firstCall.args[0]).to.equal("https://api-dev.v8x.de/api/ai/chat/generate");
+    expect(postStub.firstCall.args[0]).to.equal(`${baseUrl}/ai/chat/generate`);
      expect(result).to.deep.equal(mockResponse);
   });
 });
@@ -79,7 +79,7 @@ describe("chatListSessionsTool", () => {
     });
 
     expect(postStub.calledOnce).to.be.true;
-    expect(postStub.firstCall.args[0]).to.equal("https://api-dev.v8x.de/api/ai/chat/list-sessions");
+    expect(postStub.firstCall.args[0]).to.equal(`${baseUrl}/ai/chat/list-sessions`);
      expect(result).to.deep.equal(mockResponse);
   });
 });
@@ -118,7 +118,7 @@ describe("chatGetSessionTool", () => {
     });
 
     expect(postStub.calledOnce).to.be.true;
-    expect(postStub.firstCall.args[0]).to.equal("https://api-dev.v8x.de/api/ai/chat/get-session");
+    expect(postStub.firstCall.args[0]).to.equal(`${baseUrl}/ai/chat/get-session`);
      expect(result).to.deep.equal(mockResponse);
   });
 });
@@ -157,7 +157,7 @@ describe("chatGetHistoryTool", () => {
     });
 
     expect(postStub.calledOnce).to.be.true;
-    expect(postStub.firstCall.args[0]).to.equal("https://api-dev.v8x.de/api/ai/chat/get-history");
+    expect(postStub.firstCall.args[0]).to.equal(`${baseUrl}/ai/chat/get-history`);
      expect(result).to.deep.equal(mockResponse);
   });
 });
