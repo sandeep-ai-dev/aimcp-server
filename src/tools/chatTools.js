@@ -56,6 +56,7 @@ export const chatListSessionsTool = {
   description: "List all chat sessions",
   inputSchema: z.object({}),
   handler: async ({modelName}) => {
+     
     const aiEndpoint = AI_MODELS[modelName];
     if (!aiEndpoint) throw new Error(`Unsupported model: ${modelName}`);
     const response = await axios.get(aiEndpoint, {});
