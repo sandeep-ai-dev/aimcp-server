@@ -15,7 +15,7 @@ export const chatGenerateTool = {
     console.log(`Sending request to ${modelName} at ${aiEndpoint}`);
     console.log("Payload:", payload);
     const response = await axios.post(aiEndpoint, { payload });
-    console.log("cHET AI Response===:", response);
+    console.log("CHET AI Response===:", response);
     return response.data;
   },
 };
@@ -31,7 +31,7 @@ export const chatGetSessionTool = {
         console.log(`Sending request to ${modelName} at ${aiEndpoint}`);
         console.log("Payload:", payload);
         const response = await axios.post(aiEndpoint, { payload });
-        console.log("cHET AI Response===:", response);
+        console.log("CHET AI Response===:", response);
         return response.data;
     },
 };
@@ -46,7 +46,7 @@ export const chatGetHistoryTool = {
         console.log(`Sending request to ${modelName} at ${aiEndpoint}`);
         console.log("Payload:", payload);
         const response = await axios.post(aiEndpoint, { payload });
-        console.log("cHET AI Response===:", response);
+        console.log("CHET AI Response===:", response);
         return response.data;
     },
 };
